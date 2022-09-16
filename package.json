@@ -1,0 +1,22 @@
+{
+  "name": "be-supergraph-gateway",
+  "version": "1.0.0",
+  "description": "The gateway supergraph",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/regieosano/be-supergraph-gateway.git"
+  },
+  "author": "Regie Osano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/regieosano/be-supergraph-gateway/issues"
+  },
+  "homepage": "https://github.com/regieosano/be-supergraph-gateway#readme",
+  "devDependencies": {
+    "typescript": "^4.8.3"
+  }
+}
