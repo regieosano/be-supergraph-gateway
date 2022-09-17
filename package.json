@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/regieosano/be-supergraph-gateway#readme",
   "devDependencies": {
+    "@types/dotenv-safe": "^8.1.2",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.0",
@@ -36,6 +37,8 @@
     "@graphql-codegen/plugin-helpers": "^2.7.0",
     "apollo-graphql": "^0.9.7",
     "apollo-server": "^3.10.2",
+    "apollo-server-core": "^3.10.2",
+    "dotenv-safe": "^8.2.0",
     "graphql": "^16.6.0"
   }
 }
