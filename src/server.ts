@@ -2,20 +2,25 @@ import { ApolloGateway, IntrospectAndCompose } from "@apollo/gateway";
 import { ApolloServer } from "apollo-server";
 import { ApolloServerPluginLandingPageLocalDefault } from  "apollo-server-core";
 import dotenv from "dotenv-safe";
+import { readFileSync } from "fs";
 
 dotenv.config();
 
 const startServer = () => {
+
+	const superGraphSchema = readFileSync("./supergraph.graphql").toString();
+
 	const gateWay = new ApolloGateway({
-		supergraphSdl: new IntrospectAndCompose({
-			subgraphs:  [
-				{
-					name: "users",
-					url: process.env.USERS_SERVICE_URL,
-				},
+		supergraphSdl: superGraphSchema,
+		// supergraphSdl: new IntrospectAndCompose({
+		// 	subgraphs:  [
+		// 		{
+		// 			name: "users",
+		// 			url: process.env.USERS_SERVICE_URL,
+		// 		},
 				
-			]
-		})
+		// 	]
+		// })
 	});
 
   const server = new ApolloServer({

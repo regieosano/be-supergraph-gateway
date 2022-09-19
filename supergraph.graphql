@@ -1,0 +1,112 @@
+
+schema
+  @core(feature: "https://specs.apollo.dev/core/v0.2"),
+  @core(feature: "https://specs.apollo.dev/join/v0.1", for: EXECUTION)
+{
+  query: Query
+  mutation: Mutation
+}
+
+directive @core(as: String, feature: String!, for: core__Purpose) repeatable on SCHEMA
+
+directive @join__field(graph: join__Graph, provides: join__FieldSet, requires: join__FieldSet) on FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__owner(graph: join__Graph!) on INTERFACE | OBJECT
+
+directive @join__type(graph: join__Graph!, key: join__FieldSet) repeatable on INTERFACE | OBJECT
+
+"""Create user input"""
+input CreateUserInput {
+  """Email address"""
+  email: String!
+
+  """User name"""
+  name: String!
+
+  """User password"""
+  password: String!
+}
+
+"""Delete user input"""
+input DeleteUserInput {
+  """User ID"""
+  id: ID!
+}
+
+"""Get user by ID input"""
+input GetUserByIdInput {
+  """User ID"""
+  id: ID!
+}
+
+"""Modify user input"""
+input ModifyUserInput {
+  """Email address"""
+  email: String
+
+  """User ID"""
+  id: ID!
+
+  """User name"""
+  name: String
+
+  """User password"""
+  password: String
+}
+
+type Mutation {
+  """Create user"""
+  createUser(input: CreateUserInput): User @join__field(graph: USERS)
+
+  """Delete user"""
+  deleteUser(input: DeleteUserInput): User @join__field(graph: USERS)
+
+  """Modify user"""
+  modifyUser(input: ModifyUserInput): User @join__field(graph: USERS)
+}
+
+type Query {
+  """Get a user query"""
+  user(input: GetUserByIdInput): User! @join__field(graph: USERS)
+
+  """Get all users query"""
+  users: [User] @join__field(graph: USERS)
+}
+
+"""A user of the application"""
+type User
+  @join__owner(graph: USERS)
+  @join__type(graph: USERS, key: "id")
+{
+  """Unique email address of the user"""
+  email: String! @join__field(graph: USERS)
+
+  """ID of the user"""
+  id: ID! @join__field(graph: USERS)
+
+  """Name of the user"""
+  name: String @join__field(graph: USERS)
+
+  """Password of the user"""
+  password: String! @join__field(graph: USERS)
+}
+
+enum core__Purpose {
+  """
+  `EXECUTION` features provide metadata necessary to for operation execution.
+  """
+  EXECUTION
+
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+}
+
+scalar join__FieldSet
+
+enum join__Graph {
+  USERS @join__graph(name: "users" url: "http://localhost:4001/graphql")
+}
